@@ -10,7 +10,7 @@ export default function Screensaver() {
   const { isActive, isVisible, stopScreensaver, resetTimer } = useScreensaver(5000);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const handleUserActivity = React.useCallback((e: MouseEvent | TouchEvent | KeyboardEvent) => {
+  const handleUserActivity = React.useCallback((e: React.MouseEvent | React.TouchEvent | KeyboardEvent) => {
     if (isActive) {
       if (containerRef.current) {
         fadeOut(containerRef.current);
@@ -28,15 +28,18 @@ export default function Screensaver() {
   }, [isActive]);
 
   useEffect(() => {
+    const handleGlobalActivity = (e: Event) => {
+      handleUserActivity(e as any);
+    };
+
     const events = ['mousemove', 'mousedown', 'keypress', 'touchstart', 'scroll'];
-    
     events.forEach(event => {
-      window.addEventListener(event, handleUserActivity as EventListener);
+      window.addEventListener(event, handleGlobalActivity);
     });
 
     return () => {
       events.forEach(event => {
-        window.removeEventListener(event, handleUserActivity as EventListener);
+        window.removeEventListener(event, handleGlobalActivity);
       });
     };
   }, [handleUserActivity]);
@@ -47,7 +50,7 @@ export default function Screensaver() {
     <div 
       ref={containerRef}
       className="fixed inset-0 z-[100] flex flex-col items-center justify-center cursor-pointer bg-black/95 backdrop-blur-xl overflow-hidden opacity-0"
-      onClick={handleUserActivity as React.MouseEventHandler}
+      onClick={handleUserActivity}
     >
       <GradientBackground />
       <ScreenContent />

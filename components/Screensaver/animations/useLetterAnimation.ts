@@ -1,6 +1,6 @@
-import { animate, AnimationOptions } from '@motionone/dom';
+import { animate, type AnimationOptions } from '@motionone/dom';
 
-interface LetterAnimationOptions extends AnimationOptions {
+interface LetterAnimationOptions extends Partial<AnimationOptions> {
   repeat?: number;
   delay?: number;
 }
@@ -17,17 +17,18 @@ export const useLetterAnimation = (element: Element, index: number) => {
     animate(
       element,
       {
-        y: [0, yOffset, 0],
-        x: [0, xOffset, 0],
-        rotate: [0, rotateAmount, 0],
-        scale: [1, 1.005, 1]
+        transform: [
+          'translate3d(0, 0, 0) rotate(0deg) scale(1)',
+          `translate3d(${xOffset}px, ${yOffset}px, 0) rotate(${rotateAmount}deg) scale(1.005)`,
+          'translate3d(0, 0, 0) rotate(0deg) scale(1)'
+        ]
       },
       {
         duration,
         delay: startDelay,
         easing: [0.4, 0.1, 0.4, 1],
         repeat: Infinity
-      } as LetterAnimationOptions
+      }
     );
   };
 
@@ -39,10 +40,10 @@ export const initialLetterAnimation = (elements: Element[]) => {
     elements,
     { 
       opacity: [0, 1],
-      x: [-50, 0],
-      y: [10, 0],
-      scale: [0.9, 1],
-      rotate: [-5, 0]
+      transform: [
+        'translate3d(-50px, 10px, 0) rotate(-5deg) scale(0.9)',
+        'translate3d(0, 0, 0) rotate(0deg) scale(1)'
+      ]
     },
     { 
       duration: 3,

@@ -17,9 +17,9 @@ export default function Wave({ color, delay = 0 }: WaveProps) {
         pathRef.current,
         {
           transform: [
-            'translate(0, 0)',
-            'translate(0, 30px)',
-            'translate(0, 0)'
+            'translate3d(0, 0, 0)',
+            'translate3d(0, 30px, 0)',
+            'translate3d(0, 0, 0)'
           ]
         },
         {
@@ -38,7 +38,7 @@ export default function Wave({ color, delay = 0 }: WaveProps) {
         ref={pathRef}
         d="M 0 50 C 150 50 150 20 300 20 C 450 20 450 50 600 50 L 600 100 L 0 100 Z"
         fill={color}
-        style={{ transformOrigin: 'center' }}
+        style={{ transformOrigin: 'center', transform: 'translate3d(0, 0, 0)' }}
       />
     </svg>
   );
