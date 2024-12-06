@@ -16,7 +16,7 @@ export default function ScreenContent() {
   useEffect(() => {
     const interval = setInterval(() => {
       setIsTransitioning(true);
-      // First fade out wake text if needed
+      
       if (contentIndex === 0 && showWakeText) {
         setShowWakeText(false);
       }
@@ -25,7 +25,7 @@ export default function ScreenContent() {
         const nextIndex = (contentIndex + 1) % 3;
         setContentIndex(nextIndex);
         setIsTransitioning(false);
-        // Show wake text for hello and facts screens
+        
         if (nextIndex !== 1) {
           setTimeout(() => setShowWakeText(true), 500);
         }

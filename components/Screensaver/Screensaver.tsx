@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState, useCallback, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import GradientBackground from './GradientBackground';
 import ScreenContent from './ScreenContent';
 import { fadeIn, fadeOut } from './animations/useScreensaverTransition';
@@ -8,11 +8,9 @@ import { useScreensaver } from '@/hooks/useScreensaver';
 
 export default function Screensaver() {
   const { isActive, isVisible, stopScreensaver, resetTimer } = useScreensaver(5000);
-  const [position, setPosition] = useState({ x: 50, y: 50 });
   const containerRef = useRef<HTMLDivElement>(null);
-  const moveIntervalRef = useRef<NodeJS.Timeout>();
 
-  const handleUserActivity = useCallback((e: Event) => {
+  const handleUserActivity = React.useCallback((e: Event) => {
     e.stopPropagation();
     
     if (isActive) {
@@ -25,19 +23,6 @@ export default function Screensaver() {
   useEffect(() => {
     if (isActive && containerRef.current) {
       fadeIn(containerRef.current);
-
-      moveIntervalRef.current = setInterval(() => {
-        setPosition({
-          x: 20 + Math.random() * 60,
-          y: 20 + Math.random() * 60
-        });
-      }, 10000);
-
-      return () => {
-        if (moveIntervalRef.current) {
-          clearInterval(moveIntervalRef.current);
-        }
-      };
     }
   }, [isActive]);
 
@@ -49,17 +34,13 @@ export default function Screensaver() {
     });
 
     return () => {
-      if (moveIntervalRef.current) {
-        clearInterval(moveIntervalRef.current);
-      }
-      
       events.forEach(event => {
         window.removeEventListener(event, handleUserActivity);
       });
     };
   }, [handleUserActivity]);
 
-  const handleScreensaverClick = useCallback(() => {
+  const handleScreensaverClick = React.useCallback(() => {
     if (containerRef.current) {
       fadeOut(containerRef.current, stopScreensaver);
     }
@@ -74,7 +55,7 @@ export default function Screensaver() {
       onClick={handleScreensaverClick}
     >
       <GradientBackground />
-      <ScreenContent position={position} />
+      <ScreenContent />
     </div>
   );
 }
