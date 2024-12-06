@@ -14,7 +14,10 @@ export default function Screensaver() {
     e.stopPropagation();
     
     if (isActive) {
-      stopScreensaver();
+      if (containerRef.current) {
+        fadeOut(containerRef.current);
+        setTimeout(stopScreensaver, 800);
+      }
     } else {
       resetTimer();
     }
@@ -40,19 +43,13 @@ export default function Screensaver() {
     };
   }, [handleUserActivity]);
 
-  const handleScreensaverClick = React.useCallback(() => {
-    if (containerRef.current) {
-      fadeOut(containerRef.current, stopScreensaver);
-    }
-  }, [stopScreensaver]);
-
   if (!isVisible) return null;
 
   return (
     <div 
       ref={containerRef}
       className="fixed inset-0 z-[100] flex flex-col items-center justify-center cursor-pointer bg-black/95 backdrop-blur-xl overflow-hidden opacity-0"
-      onClick={handleScreensaverClick}
+      onClick={handleUserActivity}
     >
       <GradientBackground />
       <ScreenContent />

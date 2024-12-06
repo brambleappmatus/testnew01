@@ -20,7 +20,7 @@ export function useScreensaver(timeout: number = 5000) {
     
     if (isActive) {
       setIsActive(false);
-      setIsVisible(false);
+      setTimeout(() => setIsVisible(false), 100);
     }
   }, [isActive]);
 
@@ -28,11 +28,11 @@ export function useScreensaver(timeout: number = 5000) {
     const now = Date.now();
     const timeSinceLastActivity = now - lastActivityRef.current;
 
-    if (timeSinceLastActivity >= timeout) {
+    if (timeSinceLastActivity >= timeout && !isActive) {
       isUserActiveRef.current = false;
       startScreensaver();
     }
-  }, [timeout, startScreensaver]);
+  }, [timeout, startScreensaver, isActive]);
 
   const resetTimer = useCallback(() => {
     if (timeoutRef.current) {

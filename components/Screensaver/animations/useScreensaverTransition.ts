@@ -1,6 +1,6 @@
-import { animate } from '@motionone/dom';
+import { animate, AnimationControls } from '@motionone/dom';
 
-export const fadeIn = (element: Element, onComplete?: () => void) => {
+export const fadeIn = (element: Element) => {
   animate(
     element,
     { 
@@ -10,13 +10,12 @@ export const fadeIn = (element: Element, onComplete?: () => void) => {
     },
     { 
       duration: 1.2,
-      easing: [0.22, 1, 0.36, 1],
-      onComplete
+      easing: [0.22, 1, 0.36, 1]
     }
   );
 };
 
-export const fadeOut = (element: Element, onComplete?: () => void) => {
+export const fadeOut = (element: Element) => {
   animate(
     element,
     { 
@@ -26,8 +25,7 @@ export const fadeOut = (element: Element, onComplete?: () => void) => {
     },
     { 
       duration: 0.8,
-      easing: [0.4, 0, 0.2, 1],
-      onComplete
+      easing: [0.4, 0, 0.2, 1]
     }
   );
 };
