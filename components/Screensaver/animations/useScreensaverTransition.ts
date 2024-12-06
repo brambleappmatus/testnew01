@@ -1,7 +1,7 @@
-import { animate, AnimationOptions } from '@motionone/dom';
+import { animate } from '@motionone/dom';
 
 export const fadeIn = (element: Element, onComplete?: () => void) => {
-  return animate(
+  animate(
     element,
     { 
       opacity: [0, 1],
@@ -17,7 +17,7 @@ export const fadeIn = (element: Element, onComplete?: () => void) => {
 };
 
 export const fadeOut = (element: Element, onComplete?: () => void) => {
-  return animate(
+  animate(
     element,
     { 
       opacity: [1, 0],

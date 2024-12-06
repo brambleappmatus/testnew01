@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import { animate, stagger } from '@motionone/dom';
+import { animate } from '@motionone/dom';
 
 interface WaveProps {
   color: string;
@@ -13,17 +13,15 @@ export default function Wave({ color, delay = 0 }: WaveProps) {
 
   useEffect(() => {
     if (pathRef.current) {
-      const keyframes = {
-        transform: [
-          'translate(0, 0)',
-          'translate(0, 30px)',
-          'translate(0, 0)'
-        ]
-      };
-
       animate(
         pathRef.current,
-        keyframes,
+        {
+          transform: [
+            'translate(0, 0)',
+            'translate(0, 30px)',
+            'translate(0, 0)'
+          ]
+        },
         {
           duration: 5,
           delay,

@@ -4,10 +4,10 @@ export const useLetterAnimation = (element: Element, index: number) => {
   const startDelay = index * 0.3;
   
   const animateFloat = () => {
-    const yOffset = -3 - Math.random() * 2; // Even gentler vertical movement
+    const yOffset = -3 - Math.random() * 2;
     const xOffset = (index % 2 === 0 ? 1 : -1) * (0.8 + Math.random() * 0.2);
     const rotateAmount = (index % 2 === 0 ? 0.5 : -0.5) * (0.3 + Math.random() * 0.2);
-    const duration = 6 + Math.random() * 2; // Slower movement
+    const duration = 6 + Math.random() * 2;
 
     animate(
       element,
@@ -20,7 +20,7 @@ export const useLetterAnimation = (element: Element, index: number) => {
       {
         duration,
         delay: startDelay,
-        easing: [0.4, 0.1, 0.4, 1], // Smoother easing
+        easing: [0.4, 0.1, 0.4, 1],
         repeat: Infinity
       }
     );
@@ -30,7 +30,7 @@ export const useLetterAnimation = (element: Element, index: number) => {
 };
 
 export const initialLetterAnimation = (elements: Element[]) => {
-  return animate(
+  animate(
     elements,
     { 
       opacity: [0, 1],
