@@ -6,7 +6,7 @@ import ShelterStats from './ShelterStats';
 import PetFacts from './PetFacts';
 import WakeText from './WakeText';
 
-const DISPLAY_DURATION = 12000; // 12 seconds per content
+const DISPLAY_DURATION = 15000; // 15 seconds per content
 
 export default function ScreenContent() {
   const [contentIndex, setContentIndex] = useState(0);
@@ -17,23 +17,18 @@ export default function ScreenContent() {
     const interval = setInterval(() => {
       setIsTransitioning(true);
       
-      if (contentIndex === 0 && showWakeText) {
-        setShowWakeText(false);
-      }
-      
       setTimeout(() => {
         const nextIndex = (contentIndex + 1) % 3;
         setContentIndex(nextIndex);
         setIsTransitioning(false);
         
-        if (nextIndex !== 1) {
-          setTimeout(() => setShowWakeText(true), 500);
-        }
-      }, 500);
+        // Only show wake text for hello and facts screens
+        setShowWakeText(nextIndex !== 1);
+      }, 800); // Longer fade transition
     }, DISPLAY_DURATION);
 
     return () => clearInterval(interval);
-  }, [contentIndex, showWakeText]);
+  }, [contentIndex]);
 
   const renderContent = () => {
     switch (contentIndex) {
@@ -50,10 +45,21 @@ export default function ScreenContent() {
 
   return (
     <div className="relative z-10 min-h-screen flex flex-col justify-center items-center">
-      <div className={`flex-1 flex items-center transition-opacity duration-500 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
+      <div 
+        className={`flex-1 flex items-center transition-opacity duration-800 ${
+          isTransitioning ? 'opacity-0' : 'opacity-100'
+        }`}
+        style={{ transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)' }}
+      >
         {renderContent()}
       </div>
-      {showWakeText && <WakeText />}
+      {showWakeText && (
+        <div className={`transition-opacity duration-500 ${
+          isTransitioning ? 'opacity-0' : 'opacity-100'
+        }`}>
+          <WakeText />
+        </div>
+      )}
     </div>
   );
 }
