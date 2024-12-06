@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import { animate } from '@motionone/dom';
+import { animate, stagger } from '@motionone/dom';
 
 interface WaveProps {
   color: string;
@@ -13,20 +13,22 @@ export default function Wave({ color, delay = 0 }: WaveProps) {
 
   useEffect(() => {
     if (pathRef.current) {
+      const keyframes = {
+        transform: [
+          'translate(0, 0)',
+          'translate(0, 30px)',
+          'translate(0, 0)'
+        ]
+      };
+
       animate(
         pathRef.current,
-        {
-          d: [
-            'M 0 50 C 150 50 150 20 300 20 C 450 20 450 50 600 50 L 600 100 L 0 100 Z',
-            'M 0 50 C 150 50 150 80 300 80 C 450 80 450 50 600 50 L 600 100 L 0 100 Z',
-            'M 0 50 C 150 50 150 20 300 20 C 450 20 450 50 600 50 L 600 100 L 0 100 Z'
-          ]
-        },
+        keyframes,
         {
           duration: 5,
           delay,
           repeat: Infinity,
-          easing: 'ease-in-out'
+          easing: [0.4, 0, 0.2, 1]
         }
       );
     }
@@ -38,6 +40,7 @@ export default function Wave({ color, delay = 0 }: WaveProps) {
         ref={pathRef}
         d="M 0 50 C 150 50 150 20 300 20 C 450 20 450 50 600 50 L 600 100 L 0 100 Z"
         fill={color}
+        style={{ transformOrigin: 'center' }}
       />
     </svg>
   );

@@ -27,7 +27,7 @@ export default function GradientBackground() {
       <div className="absolute inset-0 bg-black opacity-95" />
       <div
         ref={gradientRef}
-        className="absolute inset-0 bg-gradient-to-r from-blue-900/30 via-indigo-900/30 via-purple-900/30 to-blue-900/30"
+        className="absolute inset-0 bg-gradient-to-r from-blue-900/30 via-indigo-900/30 to-purple-900/30"
         style={{ 
           backgroundSize: '400% 400%',
           filter: 'blur(100px)'
