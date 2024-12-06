@@ -1,4 +1,9 @@
-import { animate } from '@motionone/dom';
+import { animate, AnimationOptions } from '@motionone/dom';
+
+interface LetterAnimationOptions extends AnimationOptions {
+  repeat?: number;
+  delay?: number;
+}
 
 export const useLetterAnimation = (element: Element, index: number) => {
   const startDelay = index * 0.3;
@@ -22,7 +27,7 @@ export const useLetterAnimation = (element: Element, index: number) => {
         delay: startDelay,
         easing: [0.4, 0.1, 0.4, 1],
         repeat: Infinity
-      }
+      } as LetterAnimationOptions
     );
   };
 

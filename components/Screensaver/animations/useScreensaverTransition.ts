@@ -1,7 +1,11 @@
-import { animate, AnimationControls } from '@motionone/dom';
+import { animate, AnimationOptions } from '@motionone/dom';
 
-export const fadeIn = (element: Element) => {
-  animate(
+interface TransitionOptions extends AnimationOptions {
+  onComplete?: () => void;
+}
+
+export const fadeIn = (element: Element, options?: TransitionOptions) => {
+  return animate(
     element,
     { 
       opacity: [0, 1],
@@ -10,13 +14,14 @@ export const fadeIn = (element: Element) => {
     },
     { 
       duration: 1.2,
-      easing: [0.22, 1, 0.36, 1]
+      easing: [0.22, 1, 0.36, 1],
+      ...options
     }
   );
 };
 
-export const fadeOut = (element: Element) => {
-  animate(
+export const fadeOut = (element: Element, options?: TransitionOptions) => {
+  return animate(
     element,
     { 
       opacity: [1, 0],
@@ -25,7 +30,8 @@ export const fadeOut = (element: Element) => {
     },
     { 
       duration: 0.8,
-      easing: [0.4, 0, 0.2, 1]
+      easing: [0.4, 0, 0.2, 1],
+      ...options
     }
   );
 };
