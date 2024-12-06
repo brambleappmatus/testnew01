@@ -1,6 +1,6 @@
-import { animate, type AnimationOptions } from '@motionone/dom';
+import { animate, type AnimationOptionsWithOverrides } from '@motionone/dom';
 
-interface TransitionOptions extends Partial<AnimationOptions> {
+interface TransitionOptions extends AnimationOptionsWithOverrides {
   onComplete?: () => void;
 }
 

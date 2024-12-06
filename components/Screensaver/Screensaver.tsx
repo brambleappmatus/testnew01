@@ -10,7 +10,7 @@ export default function Screensaver() {
   const { isActive, isVisible, stopScreensaver, resetTimer } = useScreensaver(5000);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const handleUserActivity = React.useCallback((e: React.MouseEvent | React.TouchEvent | KeyboardEvent) => {
+  const handleUserActivity = React.useCallback((e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement> | KeyboardEvent) => {
     if (isActive) {
       if (containerRef.current) {
         fadeOut(containerRef.current);
