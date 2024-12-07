@@ -14,8 +14,8 @@ export async function addToCart(data: AddToCartData): Promise<CartItem> {
         product_name: data.product_name,
         user_id: data.user_id || null,
         quantity: data.quantity,
-        price: Number(data.price.toFixed(2)),
-        charity_amount: Number(data.charity_amount.toFixed(2))
+        price: data.price,
+        charity_amount: data.charity_amount
       }])
       .select()
       .single();
@@ -64,8 +64,8 @@ export async function fetchCartItems(): Promise<CartItem[]> {
       protein: item.product?.protein || 0,
       fats: item.product?.fats || 0,
       carbs: item.product?.carbs || 0,
-      price: Number((item.product?.price || 0) * (item.quantity || 1)).toFixed(2),
-      charity_amount: Number((item.product?.price || 0) * 0.1 * (item.quantity || 1)).toFixed(2)
+      price: (item.product?.price || 0) * (item.quantity || 1),
+      charity_amount: (item.product?.price || 0) * 0.1 * (item.quantity || 1)
     }));
   } catch (error) {
     console.error('Error fetching cart items:', error);
@@ -91,8 +91,8 @@ export async function updateCartItemQuantity(id: string, quantity: number): Prom
     if (!cartItem) throw new Error('Cart item not found');
 
     const basePrice = cartItem.product?.price || 0;
-    const newPrice = Number((basePrice * quantity).toFixed(2));
-    const newCharityAmount = Number((basePrice * 0.1 * quantity).toFixed(2));
+    const newPrice = basePrice * quantity;
+    const newCharityAmount = basePrice * 0.1 * quantity;
 
     const { error: updateError } = await supabase
       .from('cart')

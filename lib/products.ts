@@ -24,7 +24,7 @@ export async function fetchProducts(): Promise<Product[]> {
       fats: item.fats,
       carbs: item.carbs,
       hidden: item.hidden || false,
-      charityAmount: Number((item.price * 0.1).toFixed(2))
+      charityAmount: item.charity_amount || 0
     }));
   } catch (error) {
     console.error('Error in fetchProducts:', error);
@@ -34,6 +34,7 @@ export async function fetchProducts(): Promise<Product[]> {
 
 export async function createProduct(product: Omit<Product, 'id' | 'imageUrl'>): Promise<Product> {
   try {
+    // Get the maximum display_order
     const { data: maxOrderData } = await supabase
       .from('products')
       .select('display_order')
@@ -44,8 +45,9 @@ export async function createProduct(product: Omit<Product, 'id' | 'imageUrl'>): 
       ? (maxOrderData[0].display_order || 0) + 1 
       : 1;
 
-    const charityAmount = Number((product.price * 0.1).toFixed(2));
+    const charityAmount = product.price * 0.1;
 
+    // Insert the new product
     const { data, error } = await supabase
       .from('products')
       .insert([{
@@ -79,7 +81,7 @@ export async function createProduct(product: Omit<Product, 'id' | 'imageUrl'>): 
       fats: data.fats,
       carbs: data.carbs,
       hidden: data.hidden || false,
-      charityAmount: Number((data.price * 0.1).toFixed(2))
+      charityAmount: data.charity_amount || 0
     };
   } catch (error) {
     console.error('Error in createProduct:', error);
@@ -89,7 +91,7 @@ export async function createProduct(product: Omit<Product, 'id' | 'imageUrl'>): 
 
 export async function updateProduct(product: Product): Promise<void> {
   try {
-    const charityAmount = Number((product.price * 0.1).toFixed(2));
+    const charityAmount = product.price * 0.1;
 
     const { error } = await supabase
       .from('products')
@@ -142,7 +144,7 @@ export async function reorderProducts(products: Product[]): Promise<void> {
       carbs: product.carbs,
       display_order: index + 1,
       hidden: product.hidden || false,
-      charity_amount: Number((product.price * 0.1).toFixed(2))
+      charity_amount: product.charityAmount
     }));
 
     const { error } = await supabase

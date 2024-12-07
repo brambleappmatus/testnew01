@@ -15,6 +15,7 @@ export default function Home() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
 
+  // Filter out hidden products and apply search
   const visibleProducts = products
     .filter(product => !product.hidden)
     .filter(product => 
@@ -24,10 +25,10 @@ export default function Home() {
     );
 
   return (
-    <main className="p-2 sm:p-3 bg-white dark:bg-zinc-900 min-h-screen">
-      <div className="max-w-[2000px] mx-auto">
+    <main className="p-2 sm:p-4 bg-white dark:bg-zinc-900 min-h-screen">
+      <div className="max-w-7xl mx-auto">
         <ThemeToggle />
-        <h1 className="text-sm sm:text-base font-bold mb-3 text-gray-800 dark:text-zinc-100 mt-6">
+        <h1 className="text-lg sm:text-xl font-bold mb-4 text-gray-800 dark:text-zinc-100 mt-8">
           {translations.shop.title}
         </h1>
         
